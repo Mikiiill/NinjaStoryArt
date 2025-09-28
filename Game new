@@ -136,7 +136,7 @@ class StatusEffect {
 
     static get ShadowClone() {
         return (turns, damage) => new StatusEffect(
-            "ShadowCloneEffect",
+            "ShadowClone",
             turns,
             damage,
             false,
@@ -145,22 +145,22 @@ class StatusEffect {
             false,
             null,
             async (user, target) => {
-                let cloneCount = user.statusEffects.filter(e => e.name === "ShadowCloneEffect").length;
+                let cloneCount = user.statusEffects.filter(e => e.name === "ShadowClone").length;
                 for (let i = 0; i < cloneCount; i++) {
                     logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">Shadow Clone ${i + 1} uses Barrage on ${target.name}!</span>`);
                     updateBattleUI();
-                    await this.barrage(user, target); // Note: 'this' might need context from Skills class; consider passing Skills instance
+                    await skillsInstance.barrage(user, target); // Note: 'this' might need context from Skills class; consider passing Skills instance
                     if (DeathCheck()) return true;
                     await sleep(2000);
                 }
-                user.statusEffects = user.statusEffects.filter(e => e.name !== "ShadowCloneEffect");
+                user.statusEffects = user.statusEffects.filter(e => e.name !== "ShadowClone");
                 return false;
             },
             async (target, user, skillStyle) => {
-                let cloneCount = target.statusEffects.filter(e => e.name === "ShadowCloneEffect").length;
+                let cloneCount = target.statusEffects.filter(e => e.name === "ShadowClone").length;
                 if (cloneCount > 0) {
                     logBattle(`<span class="output-text-${target === player ? 'player' : 'enemy'}">${target.name}</span>'s Shadow Clone absorbs the attack!`);
-                    target.statusEffects.splice(target.statusEffects.findIndex(e => e.name === "ShadowCloneEffect"), 1);
+                    target.statusEffects.splice(target.statusEffects.findIndex(e => e.name === "ShadowClone"), 1);
                     updateBattleUI();
                     await sleep(2000);
                     await endTurn();
@@ -321,7 +321,7 @@ class StatusEffect {
                 logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">${user.name}</span> unleashes a Barrage <span class="status-ready">💪</span>!`);
                 sleep(1000);
                 updateBattleUI();
-                this.barrage(user, target); // Note: 'this' might need context from Skills class
+                skillsInstance.barrage(user, target); // Note: 'this' might need context from Skills class
                 if (DeathCheck()) return true;
                 sleep(2000);
                 return false;
@@ -539,7 +539,7 @@ class Skills {
             await sleep(2000);
             return false;
         }
-        let cloneCount = user.statusEffects.filter(e => e.name === "ShadowCloneEffect").length;
+        let cloneCount = user.statusEffects.filter(e => e.name === "ShadowClone").length;
         if (cloneCount >= 3) {
             logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">${user.name}</span> already has the maximum of 3 shadow clones!`);
             updateBattleUI();
@@ -551,7 +551,7 @@ class Skills {
         updateBattleUI();
         if (DeathCheck()) return true;
         await sleep(2000);
-        user.statusEffects.push(StatusEffect.ShadowClone(3, 0));
+        user.statusEffects.push(StatusEffect.ShadowClone(3, 0, this));
         updateBattleUI();
         if (DeathCheck()) return true;
         await sleep(2000);
@@ -668,7 +668,7 @@ class Skills {
         target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
         target.statusEffects.push(StatusEffect.Numb(1, 0));
         if (!user.statusEffects.some(e => e.name === "READY")) {
-            user.statusEffects.push(StatusEffect.Ready(2, 0));
+            user.statusEffects.push(StatusEffect.Ready(2, 0, this));
         }
         logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">${user.name}</span> uses <span class="output-text-taijutsu">Falcon Drop</span> on <span class="output-text-${target === player ? 'player' : 'enemy'}">${target.name}</span> for ${damage} damage, stunning target and taking ${damage} damage! <span class="status-ready">READY 💪</span> applied!`);
         updateBattleUI();
