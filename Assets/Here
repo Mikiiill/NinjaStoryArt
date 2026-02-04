@@ -1,32 +1,64 @@
 Welcome to Ninja Story
-Click password to load character
-Refresh page for New Character
 
-Tutorial-Sensei will show you what to do next
+Click password 
+to load character
+
+Refresh page for 
+New Character
+
+Tutorial-Sensei
+((Filler))
+will show you 
+what to do next
 
 
-((Followed by the first prompt))
+((Followed by the 
+first prompt))
 
 
-"Rank up 2 fighting Styles"
-"The jutsu that appear for you to learn require ranks in styles."
-"Advance Jutsu can require ranks in 2 different styles"
+"Rank up 2 
+fighting Styles"
+
+"The jutsu 
+that appear for you 
+to learn require 
+ranks in styles."
+"Advance Jutsu can 
+require ranks in 
+2 different styles"
 
 
-((Then you rank up 2 styles))
+((Then you rank up 
+2 styles))
 
-"Select 4 Jutsu to start your collection"
-"Do not use the forbidden Shadow Clone Jutsu at this time"
+"Select 4 Jutsu 
+to start 
+your collection"
+
+"Do not use the 
+forbidden 
+Shadow Clone Jutsu"
 
 
 ((Select 4 Jutsu))
 
 
-"Now click Train to gain EXP"
-"You collect 1 New Jutsu every 10 EXP"
-"Generate Password to SAVE your character"
-"Talk to Sensei when you learn 10 Jutsu and are ready to become a Genin"((talk to NPC button change to Talk to Sensei))
-"You will Rank UP more Fighting Styles"
+"Now click Train 
+to gain EXP"
+"You collect 1 New Jutsu 
+every 10 EXP"
+"Generate Password 
+to SAVE your character"
+"Talk to Sensei 
+when you learn 10 Jutsu
+ and are ready to become 
+a Genin"
+
+((talk to NPC button 
+change to Talk to Sensei))
+"You will Rank UP
+ more 
+Fighting Styles"
 
 
 
@@ -34,7 +66,8 @@ Tutorial-Sensei will show you what to do next
 
 
 
-((LIST OF JUTSU AND REQUIREMENTS))
+((LIST OF JUTSU 
+AND REQUIREMENTS))
 
 BARRAGE
 None
