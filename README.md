@@ -1,3 +1,5 @@
 # NinjaStoryArt
 
-Art for strategy battle Arena NinjaStory.Ninja
+Art for 
+NinjaStory.Ninja
+game
