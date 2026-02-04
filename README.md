@@ -1,2 +1,4 @@
 # NinjaStoryArt
-Yep
+
+Art for NinjaStory.Ninja
+Strategy Battle Arena
