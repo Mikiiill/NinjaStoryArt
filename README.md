@@ -22,13 +22,13 @@ update next
 clans
 clan Jutsu
 
--Red Eye
-genjutsu
--Talon
-taijutsu
--Wolf
-taijutsu
-Dog-Wolf
+//-Red Eye
+genjutsu-//
+//-Talon
+taijutsu//
+//-Wolf
+taijutsu-
+Dog-Wolf//
 
 water style
 
