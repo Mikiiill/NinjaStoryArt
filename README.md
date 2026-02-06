@@ -10,7 +10,7 @@ NinjaStory.Ninja
 
 relink
 
-https://spiffy-salmiakki-2a4e54.netlify.app/
+https://jocular-cannoli-129088.netlify.app/
 
 
 
