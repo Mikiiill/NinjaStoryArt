@@ -76,12 +76,23 @@ User Recovered Status 2turns
 LIGHTNING EDGE
 Lightning: C-Rank
 Ninjutsu: C-Rank
+damage 3-6
+remove Target substitute
+remove Target Dome
+User numb 1turn
 
 BITE
 Beast: C-Rank
+1 damage
+heal 1
+Target bleed 
+(1damage 2 turns)
 
 NIGHT TERROR JUTSU
 Genjutsu: B-Rank
+Target numb 1turn
+Target doom
+5 turns 1 damage
 
 WILD FIRE JUTSU
 Fire: C-Rank
