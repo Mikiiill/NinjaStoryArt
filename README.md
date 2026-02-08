@@ -4,6 +4,11 @@
 
 U P D A T E S
 
+Static Field Jutsu
+numbs Target 
+recovers User
+damage reduced -1
+
 P L A N N E D
 
 NinjaStory.Ninja 
