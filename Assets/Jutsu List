@@ -52,16 +52,26 @@ Fire: C-Rank
 
 DYNAMIC ENTRY
 Taijutsu: C-Rank
+deal 1 damage
+use random non support Jutsu
 
 FALCON DROP
 Taijutsu: B-Rank
+User takes 2 damage
+Target takes 2 damage
+User gains READY Status 
+Target gains numb Status
 
 ROCK SMASH JUTSU
 Earth: B-Rank
+deal 6 damage
 
 
 GENJUTSU RELEASE
 Genjutsu: B-Rank
+User remove Doom
+User Release Status 1turn
+User Recovered Status 2turns
 
 LIGHTNING EDGE
 Lightning: C-Rank
