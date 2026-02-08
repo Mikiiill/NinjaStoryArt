@@ -14,9 +14,25 @@ heal
 turns
 
 Dome
+blocks Justsu 
+(except Genjutsu)
+
 Burn
+damage
+turns
+
 Numb
+skip turn
+
 Ready
+bonus barrage
+
 Release
+block next Genjutsu
+
 Bleed
+damage
+turns
+
 Recovered
+remove numb end turn
