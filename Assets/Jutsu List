@@ -97,9 +97,17 @@ Target doom
 WILD FIRE JUTSU
 Fire: C-Rank
 Ninjutsu: C-Rank
+remove Target ShadowClone 
+remove Target substitute 
+Target burn 
+1damage/1turn
 
 HELL FIRE JUTSU
 Genjutsu: B-Rank
+Target Doom
+1 damage 5 turns
+Target Burn
+2 damage 1 turn
 
 
 ninjastory.ninja
