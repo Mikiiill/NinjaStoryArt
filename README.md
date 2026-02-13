@@ -10,7 +10,7 @@ NinjaStory.Ninja
 
 relink
 
-https://cerulean-dodol-e6a1b0.netlify.app/
+https://cheerful-jelly-877b74.netlify.app/
 
 
 Lightning Style stronger 
