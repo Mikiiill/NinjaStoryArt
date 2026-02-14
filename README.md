@@ -12,32 +12,29 @@ relink
 
 https://cheerful-jelly-877b74.netlify.app/
 
+BATTLE ARENA
+coming
 
-Lightning Style stronger 
-Earth next
+EVENT
+old Lady Wolf-Sama
+is part of Wolf Clan
 
-Battle Arena
-update next
+clans next
+clan Jutsu next
 
+//-Red Eye-//
+genjutsu
+copy Jutsu
 
+//-Talon-//
+taijutsu
+stances
 
-clans
-clan Jutsu
+//-Wolf-//
+taijutsu
+Dog pet
 
-//-Red Eye
-genjutsu-//
-
-//-Talon
-taijutsu//
-
-//-Wolf
-taijutsu-
-Dog pet//
-
+next
 water style
 
-clones
-summons
-pets
-substitutes
 
