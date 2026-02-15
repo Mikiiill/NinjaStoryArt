@@ -10,7 +10,7 @@ NinjaStory.Ninja
 
 relink
 
-https://cheerful-jelly-877b74.netlify.app/
+https://dancing-otter-57a4e1.netlify.app/
 
 BATTLE ARENA
 coming
