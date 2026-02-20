@@ -26,10 +26,11 @@ first prompt))
 "Rank up 2 
 fighting Styles"
 
-"The jutsu 
+"Jutsu 
 that appear for you 
 to learn require 
 ranks in styles."
+
 "Advance Jutsu can 
 require ranks in 
 2 different styles"
@@ -41,10 +42,6 @@ require ranks in
 "Select 4 Jutsu 
 to start 
 your collection"
-
-"Do not use the 
-forbidden 
-Shadow Clone Jutsu"
 
 
 ((Select 4 Jutsu))
