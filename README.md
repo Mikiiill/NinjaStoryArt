@@ -10,7 +10,7 @@ NinjaStory.Ninja
 
 relink
 
-https://dancing-otter-57a4e1.netlify.app/
+https://stellular-malabi-0e487c.netlify.app/
 
 BATTLE ARENA
 coming
