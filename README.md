@@ -10,7 +10,7 @@ NinjaStory.Ninja
 
 relink
 
-https://stellular-malabi-0e487c.netlify.app/
+https://frabjous-salmiakki-f64071.netlify.app/
 
 BATTLE ARENA
 coming
