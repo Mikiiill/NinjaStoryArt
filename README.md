@@ -10,7 +10,7 @@ NinjaStory.Ninja
 
 relink
 
-https://frabjous-salmiakki-f64071.netlify.app/
+https://ninjastory.netlify.app/
 
 BATTLE ARENA
 coming
