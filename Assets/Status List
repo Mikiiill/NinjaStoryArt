@@ -22,6 +22,10 @@ Burn
 damage
 turns
 
+wildfire 
+burn target 1/turn
+1 damage on user's turn
+
 Numb
 skip turn
 
