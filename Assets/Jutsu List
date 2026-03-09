@@ -15,8 +15,8 @@ with substitute
 
 SHADOW CLONE JUTSU
 Ninjutsu: C-Rank
-cost 2HP
-Summon Clone 3HP/3Turn
+cost 5HP
+Summon 2 clone 3HP/3Turn
 Jutsu:Barrage 
 
 DEMONIC VISION
@@ -51,6 +51,19 @@ Fire: C-Rank
 2-4 damage
 1 damage burn
 
+fire tag
+Ninjutsu C-Rank 
+Fire C-Rank 
+target burn
+chain next nonsupport jutsu
+
+kunai
+Ninjutsu C-Rank 
+Taijutsu C-Rank 
+1-2 damage
+target bleed
+user substitution 
+
 DYNAMIC ENTRY
 Taijutsu: C-Rank
 deal 1 damage
@@ -74,7 +87,7 @@ User remove Doom
 User Release Status 1turn
 User Recovered Status 2turns
 
-LIGHTNING EDGE
+LIGHTNING Spirit Strike
 Lightning: C-Rank
 Ninjutsu: C-Rank
 damage 3-6
@@ -98,10 +111,8 @@ Target doom
 WILD FIRE JUTSU
 Fire: C-Rank
 Ninjutsu: C-Rank
-remove Target ShadowClone 
-remove Target substitute 
-Target burn 
-1damage/1turn
+gain wild fire status
+target gain burn
 
 HELL FIRE JUTSU
 Genjutsu: B-Rank
