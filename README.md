@@ -12,11 +12,8 @@ relink
 
 https://ninjastory.netlify.app/
 
-BATTLE ARENA
-coming
-
 EVENT
-old Lady Wolf-Sama
+Lady Wolf
 is part of Wolf Clan
 
 clans next
