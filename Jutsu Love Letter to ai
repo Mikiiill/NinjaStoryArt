@@ -1,0 +1,87 @@
+Hi Ai. This is a third party person's message. Not the person sending the prompt. But please give a response as if you are talking to the person who sent this
+
+I sent this Jutsu.js file to my friend helping me test my web game
+
+They do not know javascript or any coding language, I think, But I made this file some what easy to read
+
+
+The game has a turn based battle system where players add abilities they learn by leveling up, in to a pool, or "deck", called Active Jutsu
+
+The moves are used at random with odds determined by how many copies of a Jutsu you add to your active Jutsu, with an individual max of 4, and a active Jutsu total of 10.
+This is the game flow.
+
+
+https://github.com/Mikiiill/NinjaStoryArt/blob/main/jutsu.js
+This file contains the Class BattleSkill, and class Skills which contains all of the Jutsu objects and their related functions that are performed during the turn based game flow
+
+Each battle skill has a related async function that is played out in combat print them the battleskill, then the async function
+
+Follow this EXACT constructor Ai.. do not add extra values like "chakra" or "speed" or what ever.  ONLY use the values that are already in constructor.  Do not change anything. I did not ask for game development advice nor for you to refine or add to my game flow..
+
+What you send should look similiar to this
+            new BattleSkill("smoke bomb", ["Ninjutsu"], { Ninjutsu: "B-Rank" }, this.smokebomb.bind(this), "ninjutsu", true, "B-Rank"),
+
+            new BattleSkill("fire tag", ["Ninjutsu", "Fire"], { Ninjutsu: "C-Rank", Fire: "C-Rank" }, this.firetag.bind(this), "ninjutsu", true, "B-Rank"),
+
+            new BattleSkill("Dynamic Entry", ["Taijutsu"], { Taijutsu: "C-Rank" }, this.dynamicEntry.bind(this), "taijutsu", true, "C-Rank"),
+
+            new BattleSkill("Falcon Drop", ["Taijutsu"], { Taijutsu: "B-Rank" }, this.falconDrop.bind(this), "taijutsu", false, "B-Rank"),
+
+            new BattleSkill("Rock Smash Jutsu", ["Earth", "Taijutsu"], { Earth: "B-Rank" }, 
+this.rockSmashJutsu.bind(this), "earth", false, "B-Rank"),
+
+            new BattleSkill("Genjutsu Release", ["Genjutsu"], { Genjutsu: "B-Rank" }, this.genjutsuRelease.bind(this), "genjutsu", true, "B-Rank"),
+
+Followed by the async function
+
+    async rockSmashJutsu(user, target) {
+    let damage = 6;
+
+    if (await TriggeredCheck(user, target, this, damage)) {
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span>'s Rock Smash is blocked!`);
+        updateBattleUI();
+        await sleep(2000);
+        return false;
+    }
+
+    target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
+    logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span> uses <span class="output-text-earth">Rock Smash Jutsu</span> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}">${target.name}</span> for ${damage} damage!`);
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+}
+
+Simply use the constructor to make new cool skills..
+
+class BattleSkill {
+    constructor(name, attributes, requirements, skillFunction, style, support, rank) {
+        this.name = name;
+        this.attributes = attributes || [];
+        this.requirements = requirements || {};
+        this.skillFunction = skillFunction;
+        this.style = style;
+        this.support = support || false;
+        this.rank = rank;
+    }
+
+Here are the available styles
+        const availableStyles = ["Ninjutsu", "Genjutsu", "Taijutsu", "Fire", "Water", "Lightning", "Earth", "Wind"];
+
+Please do not add any random styles that are not there ONLY USE DEFINED STYLES
+
+And also the class StatusEffects which have their own in battle functions that allow more advanced interactions during combat
+
+I want my friend to be able to make their own Jutsu and send to me that I am able to add it to my game.
+
+
+Try to explain it to them as if my game is an Engine that is able to add the jutsu right in to the game by adding the new BattleSkills using the template"
+
+When explaining the jutsu please do not bombard them with syntax.
+
+Just print the battleskills, then the async function they can copy paste, then explain it to them in a basic sense kind of way
+Name, effects, damage, and your brief thoughts on the new jutsu. 
+
+Start with printing ONE new BattleSkill then ask them things like what type of styles or effects they want to achieve with the jutsu creating new jutsu using this format. Make it fun.
+
+Thanks ai
