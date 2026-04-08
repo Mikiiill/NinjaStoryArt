@@ -48,6 +48,102 @@ class StatusEffect {
         );
     }
 
+
+    static get WaterClone() {
+    return (turns, damage, barrageFunction) => new StatusEffect(
+        "Water Clone",
+        turns,
+        damage,
+        false,
+        true,   // active = true
+        true,   // triggered = true (for absorption)
+        false,
+        null,
+        // Active function - Water Clone attacks with barrage + Wet interaction
+        async (originalUser, target) => {
+            let cloneCount = originalUser.statusEffects.filter(e => e.name === "Water Clone").length;
+            if (cloneCount > 0) {
+                for (let i = 0; i < cloneCount; i++) {
+                    let status = originalUser.statusEffects.find((e, idx) => 
+                        e.name === "Water Clone" && originalUser.statusEffects.indexOf(e) === i
+                    );
+                    if (status && status.duration > 0) {
+                        let summon = new Mob(`Water Clone #${i + 1}`, status.duration, status.duration, "D-Rank", {}, [], [], []);
+                        summon.summonType = true;
+                        if (!originalUser.statusEffects.find(e => e.summon === summon)) {
+                            originalUser.statusEffects.push({ name: "u", summon: summon, duration: status.duration });
+                        }
+
+                        logBattle(`<strong><span class="output-text-${originalUser === player ? 'player' : 'enemy'}">Water Clone  ${i + 1}</span></strong> uses <strong>barrage</strong> on <strong> ${target.name}</strong> ! 💧`);
+
+                        updateBattleUI();
+                        let originalGameUser = game.user;
+                        game.user = summon;
+                        await barrageFunction(summon, target);
+                        game.user = originalGameUser;
+
+                        if (DeathCheck()) return false;
+
+                        // === Water Clone special effect after barrage ===
+                        let wetIndex = target.statusEffects.findIndex(e => e.name === "Wet");
+                        if (wetIndex !== -1) {
+                            target.statusEffects[wetIndex].duration += 2;
+                            logBattle(`<span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span>'s <span class="output-text-water">Wet</span> duration increased by 2! 💧`);
+                        } else {
+                            target.statusEffects.push(StatusEffect.Wet(3));
+                            logBattle(`<span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span> becomes <span class="output-text-water">Wet</span> for 3 turns! 💧`);
+                        }
+                        updateBattleUI();
+
+                        if (summon.hp <= 0) {
+                            originalUser.statusEffects = originalUser.statusEffects.filter(e => e.summon !== summon);
+                        }
+                        await sleep(2000);
+                    }
+                }
+                originalUser.statusEffects = originalUser.statusEffects.filter(e => 
+                    e.name !== "u" || (e.summon && e.summon.hp > 0)
+                );
+            }
+            return false;
+        },
+        // Triggered function - when clone blocks an attack, wet the attacker
+        async (target, user, skillStyle, damage) => {
+            let status = target.statusEffects.find(e => e.name === "Water Clone" && e.duration > 0);
+            if (status) {
+                let appliedDamage = (typeof damage === 'number' && !isNaN(damage)) ? damage : 1;
+                let absorbed = Math.min(status.duration, appliedDamage);
+
+                logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}">Water Clone</span></strong> takes <strong> ${absorbed} damage</strong>! <br><strong>clone hp: ${status.duration - absorbed} 💧</strong>`);
+
+                status.duration = Math.max(0, status.duration - absorbed);
+                if (status.duration <= 0) {
+                    target.statusEffects = target.statusEffects.filter(e => e !== status);
+                    logBattle(`<span class="output-text-\( {target === player ? 'player' : 'enemy'}">Water Clone removed!</span>`);
+
+                    // === Water Clone death effect: wet the attacker ===
+                    let attackerWetIndex = user.statusEffects.findIndex(e => e.name === "Wet");
+                    if (attackerWetIndex !== -1) {
+                        user.statusEffects[attackerWetIndex].duration += 2;
+                        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span> gets splashed! <span class="output-text-water">Wet</span> duration +2 💧`);
+                    } else {
+                        user.statusEffects.push(StatusEffect.Wet(3));
+                        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span> gets splashed and becomes <span class="output-text-water">Wet</span> for 3 turns! 💧`);
+                    }
+                    updateBattleUI();
+                }
+                updateBattleUI();
+                await sleep(2000);
+                return true;
+            }
+            return false;
+        },
+        null,
+        statusEmojis["Water Clone"]
+    );
+    }
+
+  
     static get ShadowClone() {
         return (turns, damage, barrageFunction) => new StatusEffect(
             "Shadow Clone",
@@ -113,6 +209,9 @@ class StatusEffect {
                     }
 
 
+
+
+
         // FIXED StatusEffect.sling static getter - now properly triggers barrage like Shadow Clone
 static get sling() {
     return (turns) => new StatusEffect(
@@ -148,7 +247,81 @@ static get sling() {
     );
 }
 
-    
+
+
+    static Charged(duration, extraDamage = 1) {
+    return new StatusEffect(
+        "Charged",
+        duration,
+        extraDamage,        // this.damage stores how many EXTRA hits to add
+        false,              // startOfTurn
+        false,              // active
+        false,              // triggered
+        false,              // endOfTurn
+        null,               // startOfTurnFunction
+        null,               // activeFunction
+        null,               // triggeredFunction
+        null,               // endOfTurnFunction
+        statusEmojis["Charged"]
+    );
+}
+
+
+
+
+
+    static get Wet() {
+    return (turns) => new StatusEffect(
+        "Wet",
+        turns,
+        0,
+        false,   // no startOfTurn
+        false,   // no active
+        false,   // no triggered
+        true,    // endOfTurn = true  ← important
+        null,
+        null,
+        null,
+        // End of turn function - removes Burn and reduces Wet duration
+        async (user, target, status) => {
+            // Check both sides (user and target) like Recovered does
+            const checkAndClean = (entity) => {
+                const hasWet = entity.statusEffects.some(e => e.name === "Wet");
+                const hasBurn = entity.statusEffects.some(e => e.name === "Burn");
+
+                if (hasWet && hasBurn) {
+                    // Remove Burn completely
+                    entity.statusEffects = entity.statusEffects.filter(e => e.name !== "Burn");
+
+                    // Reduce Wet duration by 1
+                    let wetStatus = entity.statusEffects.find(e => e.name === "Wet");
+                    if (wetStatus) {
+                        wetStatus.duration = Math.max(0, wetStatus.duration - 1);
+                        if (wetStatus.duration <= 0) {
+                            entity.statusEffects = entity.statusEffects.filter(e => e.name !== "Wet");
+                        }
+                    }
+
+                    logBattle(`<strong><span class="output-text-\( {entity === player ? 'player' : 'enemy'}"> \){entity.name}</span></strong> is <span class="output-text-water">Wet</span> and <span class="status-burn">Burn</span> cancels out! Wet duration reduced.`);
+                    updateBattleUI();
+                    return true;
+                }
+                return false;
+            };
+
+            let changed = false;
+            if (checkAndClean(user)) changed = true;
+            if (checkAndClean(target)) changed = true;
+
+            await sleep(1500);
+            return false; // don't end turn early
+        },
+        statusEmojis["Wet"] || "💦"   // fallback emoji if not defined
+    );
+}
+
+
+
     static get Doom() {
         return (turns, damage) => new StatusEffect(
             "Doom",
@@ -477,83 +650,60 @@ static get sling() {
 
 
     static get Dog() {
-        return (turns, damage) => new StatusEffect(
-            "Dog",
-            turns,          // 6 turns / 6 HP
-            damage,
-            false,
-            true,           // Active: dog attacks on your turn
-            true,           // Triggered: absorbs damage
-            false,
-            null,
-            async (user, target) => {
-                let dogCount = user.statusEffects.filter(e => e.name === "Dog").length;
-                if (dogCount > 0) {
-                    for (let i = 0; i < dogCount; i++) {
-                        let status = user.statusEffects.find((e, idx) => e.name === "Dog" && user.statusEffects.indexOf(e) === i);
-                        if (status && status.duration > 0) {
-                            let summon = new Mob(`Dog #${i + 1}`, status.duration, status.duration, "D-Rank", {}, [], [], []);
-                            summon.summonType = true;
-                            if (!user.statusEffects.find(e => e.summon === summon)) {
-                                user.statusEffects.push({ name: "u", summon: summon, duration: status.duration });
-                            }
+    return (turns, damage, biteFunction) => new StatusEffect(
+        "Dog",
+        turns,
+        damage,
+        false,
+        true,   // active = true
+        true,   // triggered = true
+        false,
+        null,
+        // Active function - runs on owner's turn (this is what was missing/broken)
+        async (owner, target) => {
+            let dogCount = owner.statusEffects.filter(e => e.name === "Dog").length;
+            if (dogCount > 0) {
+                for (let i = 0; i < dogCount; i++) {
+                    let status = owner.statusEffects.find((e, idx) => e.name === "Dog" && owner.statusEffects.indexOf(e) === i);
+                    if (status && status.duration > 0) {
+                        logBattle(`<strong><span class="output-text-${owner === player ? 'player' : 'enemy'}">Dog  ${i + 1}</span></strong> looks to its owner, <strong> ${user.name}</strong> ! 🐺`);
 
-                            logBattle(`<strong><span class="output-text-${user === player ? 'player' : 'enemy'}">dog \( {i + 1}</span></strong> uses <strong>bite</strong> on <strong> \){target.name}</strong> !`);
-                            updateBattleUI();
-                            await sleep(1200);
+                        updateBattleUI();
+                        await sleep(800);
 
-                            let damage = 1;
-                            const dummySkill = { name: "Bite", style: "taijutsu" };
+                        // Call the real bite jutsu (this is the key part)
+                        const originalUser = game.user;
+                        game.user = owner;
+                        await biteFunction(owner, target);
+                        game.user = originalUser;
 
-                            if (await TriggeredCheck(user, target, dummySkill, damage)) {
-                                logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">dog ${i + 1}'s</span> Bite is blocked!`);
-                                updateBattleUI();
-                                await sleep(2000);
-                                continue;
-                            }
-
-                            target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
-                            target.statusEffects.push(StatusEffect.Bleed(2, 1));
-                            logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">dog \( {i + 1}</span> bites <span class="output-text- \){target === player ? 'player' : 'enemy'}">${target.name}</span> for ${damage} damage, inflicting <span class="status-bleed">Bleed 🩸</span>!`);
-                            updateBattleUI();
-
-                            let heal = 1;
-                            status.duration = Math.min(status.duration + heal, 6);
-                            logBattle(`<span class="output-text-${user === player ? 'player' : 'enemy'}">dog ${i + 1}</span> regains vitality from the bite! Duration + ${heal} 🐺`);
-                            updateBattleUI();
-
-                            if (DeathCheck()) return false;
-                            await sleep(2000);
-                        }
+                        if (DeathCheck()) return false;
+                        await sleep(1200);
                     }
-
-                    user.statusEffects = user.statusEffects.filter(e => 
-                        e.name !== "u" || (e.summon && e.summon.hp > 0)
-                    );
                 }
-                return false;
-            },
-            
-            async (target, user, skillStyle, damage) => {
-                let status = target.statusEffects.find(e => e.name === "Dog" && e.duration > 0);
-                if (status) {
-                    let appliedDamage = (typeof damage === 'number' && !isNaN(damage)) ? damage : 1;
-                    let absorbed = Math.min(status.duration, appliedDamage);
-                    logBattle(`<strong><span class="output-text-${target === player ? 'player' : 'enemy'}">dog</span></strong> absorbs <strong>${absorbed} damage</strong> ! <br>Remaining hp: <strong>${status.duration - absorbed}</strong> 🐺`);
-                    status.duration = Math.max(0, status.duration - absorbed);
-                    if (status.duration <= 0) {
-                        target.statusEffects = target.statusEffects.filter(e => e !== status);
-                        logBattle(`<span class="output-text-${target === player ? 'player' : 'enemy'}">dog is defeated!</span>`);
-                    }
-                    updateBattleUI();
-                    await sleep(2000);
-                    return true;
+            }
+            return false;
+        },
+        // Triggered function (absorption) - this part was already working
+        async (target, user, skillStyle, damage) => {
+            let status = target.statusEffects.find(e => e.name === "Dog" && e.duration > 0);
+            if (status) {
+                let absorbed = Math.min(status.duration, damage || 1);
+                logBattle(`<strong>Dog</strong> absorbs <strong>${absorbed} damage</strong> 🐺`);
+                status.duration = Math.max(0, status.duration - absorbed);
+                if (status.duration <= 0) {
+                    target.statusEffects = target.statusEffects.filter(e => e !== status);
+                    logBattle(`Dog is defeated!`);
                 }
-                return false;
-            },
-            null,
-            "🐺"
-        );
+                updateBattleUI();
+                await sleep(1500);
+                return true;
+            }
+            return false;
+        },
+        null,
+        "🐺"
+    );
     }
 }
 
@@ -562,12 +712,15 @@ const statusEmojis = {
     "Substitute": "🪵",
     "sling": "☄️",
     "Shadow Clone": "👥",
+    "Water Clone": "👥",
     "Doom": "💀",
     "Regen": "🌿",
     "Dome": "🪨",
     "wildfire": "🕯",
     "Burn": "🔥",
+    "Wet": "💦",
     "Numb": "⚡️",
+    "Charged": "🔋",
     "READY": "💪",
     "Release": "🌀",
     "Bleed": "🩸",
@@ -620,18 +773,19 @@ class Skills {
             new BattleSkill("Kunai", ["Ninjutsu", "Taijutsu"], { Ninjutsu: "C-Rank", Taijutsu: "C-Rank" }, this.kunai.bind(this), "ninjutsu", false, "B-Rank"),
 
 
-            //new BattleSkill("Barrage", ["Taijutsu"], {}, this.barrage.bind(this), "taijutsu", false, "D-Rank"),
+            new BattleSkill("Hydrate", ["Water"], { Water: "C-Rank" }, this.hydrate.bind(this), "water", true, "C-Rank"),
+
+            new BattleSkill("Drowning Jutsu", ["Water"], { Water: "B-Rank" }, this.drowningJutsu.bind(this), "water", false, "B-Rank"),
+
+            new BattleSkill("Kraken's Grasp", ["Genjutsu", "Water"], { Genjutsu: "C-Rank", Water: "C-Rank" }, this.krakensGrasp.bind(this), "genjutsu", true, "C-Rank"),
+            new BattleSkill("Water Clone Jutsu", ["Ninjutsu", "Water"], { Ninjutsu: "C-Rank", Water: "C-Rank" }, this.waterCloneJutsu.bind(this), "ninjutsu", true, "B-Rank"),
 
             //new BattleSkill("Barrage", ["Taijutsu"], {}, this.barrage.bind(this), "taijutsu", false, "D-Rank"),
 
-            //new BattleSkill("Barrage", ["Taijutsu"], {}, this.barrage.bind(this), "taijutsu", false, "D-Rank"),
-
-            //new BattleSkill("Barrage", ["Taijutsu"], {}, this.barrage.bind(this), "taijutsu", false, "D-Rank"),
 
 
 
-
-            //new BattleSkill("twin flare jutsu", ["Taijutsu"], {}, this.barrage.bind(this), "taijutsu", false, "D-Rank"),
+            new BattleSkill("Chain Lightning", ["Ninjutsu", "Lightning"], { Lightning: "B-Rank" }, this.chainLightning.bind(this), "lightning", false, "B-Rank"),
 
 
             new BattleSkill("Substitution Jutsu", [], { Ninjutsu: "D-Rank", Taijutsu: "D-Rank" }, this.substitutionJutsu.bind(this), "ninjutsu", true, "D-Rank"),
@@ -643,6 +797,12 @@ class Skills {
             new BattleSkill("Static Field Jutsu", ["Lightning", "Ninjutsu"], { Lightning: "C-Rank" }, this.staticFieldJutsu.bind(this), "lightning", false, "C-Rank"),
             new BattleSkill("Fireball Jutsu", ["Fire", "Ninjutsu"], { Fire: "C-Rank" }, this.fireballJutsu.bind(this), "fire", false, "C-Rank"),
             //new
+            new BattleSkill("Razor Wind Jutsu", ["Ninjutsu", "Wind"], { Wind: "C-Rank" }, this.razorWindJutsu.bind(this), "wind", false, "C-Rank"),
+            new BattleSkill("Wind Shuriken Jutsu", ["Wind"], { Wind: "B-Rank" }, this.windShurikenJutsu.bind(this), "wind", false, "B-Rank"),
+          
+
+
+           
 
             new BattleSkill("smoke bomb", ["Ninjutsu"], { Ninjutsu: "B-Rank" }, this.smokebomb.bind(this), "ninjutsu", true, "B-Rank"),
             new BattleSkill("fire tag", ["Ninjutsu", "Fire"], { Ninjutsu: "C-Rank", Fire: "C-Rank" }, this.firetag.bind(this), "ninjutsu", true, "B-Rank"),
@@ -749,6 +909,129 @@ user.statusEffects.push(StatusEffect.ShadowClone(3, 0, skills.barrage.bind(skill
     return false;
 }
 
+
+     async waterCloneJutsu(user, target) {
+    let cloneCount = user.statusEffects.filter(e => e.name === "Water Clone").length;
+    if (cloneCount >= 3) {
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span> already has the maximum of 3 clones!`);
+        updateBattleUI();
+        await sleep(2000);
+        const skills = new Skills();
+        await skills.barrage(user, target);
+        target.statusEffects.push(StatusEffect.Wet(3));
+
+        return false;
+    }
+
+    if (user.statusEffects.some(e => e.name === "Wet")) {
+        // Remove Wet status as cost
+        user.statusEffects = user.statusEffects.filter(e => e.name !== "Wet");
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Water Clone Jutsu</span></strong> and removes their <span class="output-text-water">Wet</span> status!`);
+    } else {
+        if (user.hp < 4) {
+            logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> does not have enough <strong>hp</strong> to use <strong><span class="output-text-neutral">Water Clone Jutsu</span></strong> !`);
+            updateBattleUI();
+            await sleep(2000);
+            const skills = new Skills();
+            await skills.barrage(user, target);
+            target.statusEffects.push(StatusEffect.Wet(3));
+
+            return false;
+        }
+        user.hp = Math.max(0, Math.min(user.maxHp, user.hp - 4));
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> loses 4 HP to create clones!`);
+    }
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> gains <strong>2<span class="output-text-neutral">water clone</span></strong> <span class="status-shadowcloneeffect">👥</span>!`);
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+
+    const skills = new Skills();
+    user.statusEffects.push(StatusEffect.WaterClone(3, 0, skills.barrage.bind(skills)));
+    user.statusEffects.push(StatusEffect.WaterClone(3, 0, skills.barrage.bind(skills)));
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+}
+
+
+    async windShurikenJutsu(user, target) {
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> sends a spinning orb of Wind at <strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> that hones in on their location !`);
+
+    // Special Earth Dome interaction
+    let domeIndex = target.statusEffects.findIndex(e => e.name === "Dome");
+    if (domeIndex !== -1) {
+        target.statusEffects[domeIndex].duration = Math.max(0, target.statusEffects[domeIndex].duration - 2);
+        logBattle(`<span class="output-text-wind">Wind Shuriken</span> crashes into <span class="output-text-earth">Earth Dome</span>! Dome duration reduced by 2.`);
+
+        if (target.statusEffects[domeIndex].duration <= 0) {
+            target.statusEffects.splice(domeIndex, 1);
+            logBattle(`<span class="output-text-earth">Earth Dome</span> is destroyed!`);
+        }
+        updateBattleUI();
+        await sleep(2000);
+        return false;
+    }
+
+    // Normal hit (skips TriggeredCheck)
+    let damage = Math.floor(Math.random() * 2) + 3; // 3-4 damage
+
+    target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> hits <strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> for <strong>${damage} damage</strong>!`);
+
+    // Apply Bleed
+    target.statusEffects.push(StatusEffect.Bleed(2, 1));
+    logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> starts <span class="status-bleed">Bleeding 🩸</span> !`);
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+    }
+
+
+    async razorWindJutsu(user, target) {
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> exerts a strong gust of wind hitting every thing in its path !`);
+
+    // Reduce duration of all triggered status effects on target by 1
+    target.statusEffects.forEach(status => {
+        if (status.triggered && status.duration > 0) {
+            status.duration = Math.max(0, status.duration - 1);
+        }
+    });
+
+    // Clean up any expired triggered statuses
+    target.statusEffects = target.statusEffects.filter(status => 
+        !(status.triggered && status.duration <= 0)
+    );
+
+    updateBattleUI();
+    await sleep(1000);
+
+    // Deal 1-2 damage (skips TriggeredCheck as requested)
+    let damage = Math.floor(Math.random() * 2) + 1;
+
+    target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> slices <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span> for <strong>${damage} damage</strong>!`);
+
+    // Apply Bleed
+    target.statusEffects.push(StatusEffect.Bleed(2, 1));
+    logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> starts <span class="status-bleed">Bleeding 🩸</span>!`);
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+    }
+
+  
+
     async demonicVision(user, target) {
     let damage = 1;
 
@@ -768,6 +1051,33 @@ user.statusEffects.push(StatusEffect.ShadowClone(3, 0, skills.barrage.bind(skill
     return false;
 }
 
+
+    async hydrate(user, target) {
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Hydrate</span></strong>!`);
+
+    // Add Healing Stance for 3 turns (you'll need to make sure HealingStance status exists or adjust if needed)
+    user.statusEffects.push(StatusEffect.Regen(3, 1));
+
+    let wetIndex = user.statusEffects.findIndex(e => e.name === "Wet");
+    if (wetIndex !== -1) {
+        // Already wet → gain 1 HP and add 3 more turns
+        user.hp = Math.max(0, Math.min(user.maxHp, user.hp + 1));
+        user.statusEffects[wetIndex].duration += 3;
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span> absorbs some water !`);
+    } else {
+        // Not wet → gain 3 HP and add Wet for 3 turns
+        user.hp = Math.max(0, Math.min(user.maxHp, user.hp + 3));
+        user.statusEffects.push(StatusEffect.Wet(3));
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> heals 3 HP and becomes <span class="output-text-water">Wet</span> for 3 turns!`);
+    }
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+}
+
+
     async healingStance(user, target) {
         let heal = user.hp < user.maxHp ? 1 : 0;
         user.hp = Math.min(user.maxHp, user.hp + heal);
@@ -779,6 +1089,68 @@ user.statusEffects.push(StatusEffect.ShadowClone(3, 0, skills.barrage.bind(skill
         return true;
     }
 
+
+
+    async krakensGrasp(user, target) {
+    //logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> \){user.name}</span></strong> uses <strong><span class="output-text-genjutsu">Kraken's Grasp</span></strong>!`);
+
+    // Apply Doom
+    target.statusEffects.push(StatusEffect.Doom(5, 1));
+
+    // Apply Wet for 3 turns (or refresh)
+    let wetIndex = target.statusEffects.findIndex(e => e.name === "Wet");
+    if (wetIndex !== -1) {
+        target.statusEffects[wetIndex].duration += 3;
+    } else {
+        target.statusEffects.push(StatusEffect.Wet(3));
+    }
+
+    logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> becomes soaked in sweat and nerves !`);
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+    }
+
+  
+
+    async drowningJutsu(user, target) {
+    let damage = 3;
+    let wetEffect = target.statusEffects.find(e => e.name === "Wet");
+
+    if (wetEffect) {
+        damage += wetEffect.duration;
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Drowning Jutsu</span></strong> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span>! The wet target takes extra damage!`);
+    } else {
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Drowning Jutsu</span></strong> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> \){target.name}</span>!`);
+    }
+
+    if (await TriggeredCheck(user, target, this, damage)) {
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> \){user.name}</span>'s Drowning Jutsu is blocked!`);
+        updateBattleUI();
+        await sleep(2000);
+        return false;
+    }
+
+    target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+
+    // Add or refresh Wet status for 3 turns
+    let existingWet = target.statusEffects.findIndex(e => e.name === "Wet");
+    if (existingWet !== -1) {
+        target.statusEffects[existingWet].duration += 3;
+    } else {
+        target.statusEffects.push(StatusEffect.Wet(3));
+    }
+
+    logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> is now <span class="output-text-water">Wet</span> for 3 more turns!`);
+    updateBattleUI();
+    await sleep(2000);
+    return false;
+}
 
 
     async kunai(user, target) {
@@ -802,7 +1174,7 @@ user.statusEffects.push(StatusEffect.ShadowClone(3, 0, skills.barrage.bind(skill
         }
 
         // Add Substitution to user for 2 turns
-        user.statusEffects.push(StatusEffect.Substitute(2, 0));
+        user.statusEffects.push(StatusEffect.Substitute(1, 0));
         logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> gains <strong><span class="status-substitute">substitution</span></strong> !`);
         updateBattleUI();
         await sleep(1500);
@@ -988,7 +1360,7 @@ async dynamicEntry(user, target) {
 
 
     async smokebomb(user, target) {
-    const damage = 1;
+    const damage = 0;
 
     if (await TriggeredCheck(user, target, this, damage)) {
         // Blocked: No burn applied, but still chain (tactical pressure)
@@ -1028,7 +1400,7 @@ async dynamicEntry(user, target) {
 
 
     async firetag(user, target) {
-    const damage = 1;
+    const damage = 0;
 
     if (await TriggeredCheck(user, target, this, damage)) {
         // Blocked: No burn applied, but still chain (tactical pressure)
@@ -1066,7 +1438,7 @@ async dynamicEntry(user, target) {
 
 
     async rockSmashJutsu(user, target) {
-    let damage = 6;
+    let damage = 5;
 
     if (await TriggeredCheck(user, target, this, damage)) {
         logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span>'s Rock Smash is blocked!`);
@@ -1094,6 +1466,54 @@ async dynamicEntry(user, target) {
         await sleep(2000);
         return true;
     }
+
+
+    async chainLightning(user, target) {
+    let extraInstances = 0;
+    let existingChain = user.statusEffects.find(e => e.name === "Charged");
+    
+    if (existingChain) {
+        existingChain.duration += 2;
+        existingChain.damage = (existingChain.damage || 1) + 1;
+        extraInstances = existingChain.damage - 1;
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> is charging <strong><span class="output-text-lightning">Chain Lightning</span></strong> !`);
+        await sleep(2000);
+    } else {
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> unleashes <strong><span class="output-text-lightning">Chain Lightning</span></strong> !`);
+    }
+
+    const totalHits = 4 + extraInstances;
+
+    for (let i = 0; i < totalHits; i++) {
+        let damage = 1;
+
+        if (await TriggeredCheck(user, target, this, damage)) {
+            logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span>'s</strong> Chain Lightning strike ${i+1} is blocked!`);
+            await sleep(1000);
+        } else {
+            target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
+            logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> strikes <strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> with Chain Lightning for ${damage} damage ! ( ${i+1}/${totalHits})`);
+            updateBattleUI();
+            if (DeathCheck()) return true;
+            await sleep(1000);  // small delay between hits for dramatic feel
+        }
+    }
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(800);
+
+    // Apply / refresh Chain Lightning status (duration 2, stores the current extra damage level)
+    if (!existingChain) {
+        user.statusEffects.push(StatusEffect.Charged(2, 1));  // damage here means extra instances
+    }
+
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> is charged for 2 more turns !`);
+    updateBattleUI();
+    await sleep(2000);
+    return false;
+}
+
 
     async lightningEdge(user, target) {
     target.statusEffects = target.statusEffects.filter(e => e.name !== "Substitute" && e.name !== "Dome");
@@ -1241,38 +1661,38 @@ async dynamicEntry(user, target) {
         return false;
     }
     async summonDog(user, target) {
-        if (user.hp < 4) {
-            logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span> does not have enough HP (needs 4) to summon a dog!`);
-            updateBattleUI();
-            await sleep(2000);
-            const skills = new Skills();
-            await skills.bite(user, target);
-            return false;
-        }
-
-        let dogCount = user.statusEffects.filter(e => e.name === "Dog").length;
-        if (dogCount >= 2) {
-            logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span> already has the maximum of 2 dogs!`);
-            updateBattleUI();
-            await sleep(2000);
-            const skills = new Skills();
-            await skills.bite(user, target);
-        
-            return false;
-        }
-
-        user.statusEffects.push(StatusEffect.Bleed(2, 1));
-        user.statusEffects.push(StatusEffect.Bleed(2, 1));
-        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span> summons a dog companion <span class="status-dog">🐺</span>!`);
+    if (user.hp < 4) {
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> \){user.name}</span> does not have enough HP (needs 4) to summon a dog!`);
         updateBattleUI();
-        if (DeathCheck()) return true;
         await sleep(2000);
-
-        //const skills = new Skills();
-        user.statusEffects.push(StatusEffect.Dog(6, 0));
-        updateBattleUI();
-        if (DeathCheck()) return true;
-        await sleep(2000);
+        const skills = new Skills();
+        await skills.bite(user, target);
         return false;
     }
-                                                        }
+
+    let dogCount = user.statusEffects.filter(e => e.name === "Dog").length;
+    if (dogCount >= 2) {
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> \){user.name}</span> already has the maximum of 2 dogs!`);
+        updateBattleUI();
+        await sleep(2000);
+        const skills = new Skills();
+        await skills.bite(user, target);
+        return false;
+    }
+
+    // Summon message
+    logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> \){user.name}</span> summons a dog companion <span class="status-dog">🐺</span>!`);
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+
+    // Apply the Dog status with bite function
+    const skills = new Skills();
+    user.statusEffects.push(StatusEffect.Dog(6, 0, skills.bite.bind(skills)));
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+    }
+}
