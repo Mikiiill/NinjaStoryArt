@@ -6,7 +6,7 @@ AND REQUIREMENTS))
 
 
 // ================================================
-// BASIC / CORE
+// 🪵BASIC / CORE🪵
 // ================================================
 
 Barrage - D-Rank
@@ -22,7 +22,7 @@ Requirements: None
 Support. Heals 1 HP (if below max) and applies Regen (2 turns, 1 HP per turn).
 
 // ================================================
-// TAIJUTSU
+// 💪TAIJUTSU💪
 // ================================================
 
 Dynamic Entry - C-Rank
@@ -42,7 +42,7 @@ Requirements: Ninjutsu C-Rank, Taijutsu C-Rank
 Deals 1-2 damage + Bleed (2 turns) to target. Gives user Substitution (2 turns).
 
 // ================================================
-// NINJUTSU
+// 👥NINJUTSU👥
 // ================================================
 
 Kunai - B-Rank
@@ -70,7 +70,7 @@ Requirements: Earth B-Rank, Ninjutsu C-Rank
 Support. Applies Sling + Dome + Numb to user (or Barrage if Dome active).
 
 // ================================================
-// GENJUTSU
+// 💀GENJUTSU💀
 // ================================================
 
 Demonic Vision - C-Rank
@@ -94,7 +94,7 @@ Requirements: Genjutsu C-Rank, Water C-Rank
 Support. Applies Doom (5 turns) and Wet (3 turns or +3) to target.
 
 // ================================================
-// WATER
+// 💦WATER💦
 // ================================================
 
 Hydrate - C-Rank
@@ -121,7 +121,7 @@ Requirements: Genjutsu C-Rank, Water C-Rank
 Support. Applies Doom and Wet to target.
 
 // ================================================
-// LIGHTNING
+// ⚡️LIGHTNING⚡️
 // ================================================
 
 Static Field Jutsu - C-Rank
@@ -141,7 +141,7 @@ Requirements: Water C-Rank, Lightning C-Rank
 Deals 2-3 lightning damage. Applies Wet to both + Recovered (1 turn) to user.
 
 // ================================================
-// FIRE
+// 🔥FIRE🔥
 // ================================================
 
 Fireball Jutsu - C-Rank
@@ -157,7 +157,7 @@ Requirements: Ninjutsu C-Rank, Fire C-Rank
 Deals 1 damage (or blocked). Applies Burn to target if not blocked and chains into another attack.
 
 // ================================================
-// WIND
+// 🍃WIND🍃
 // ================================================
 
 Razor Wind Jutsu - C-Rank
@@ -169,7 +169,7 @@ Requirements: Wind B-Rank
 Skips TriggeredCheck. If target has Earth Dome: reduces it by 2. Otherwise deals 3-4 damage + Bleed.
 
 // ================================================
-// EARTH
+// 🪨EARTH🪨
 // ================================================
 
 Earth Dome Jutsu - C-Rank
@@ -185,7 +185,7 @@ Requirements: Earth B-Rank, Ninjutsu C-Rank
 Support. Applies Sling + Dome + Numb to user (or Barrage if Dome active).
 
 // ================================================
-// BEAST
+// 🐺BEAST🐺
 // ================================================
 
 Bite - C-Rank
