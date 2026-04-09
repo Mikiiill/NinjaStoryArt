@@ -1,43 +1,92 @@
+// ================================================
+// STATUS EFFECTS
+// ================================================
 
+// ================================================
+// 🛡️ DEFENSIVE / PROTECTIVE
+// ================================================
 
-Substitute 
-1 turn substitute 
+Substitute - (turns)
+Absorbs incoming damage equal to its duration (acts like temporary HP). Removed when duration reaches 0.
 
-Shadow Clone
-3 turn
-jutsu: Barrage
+Dome - (turns)
+Blocks non-Genjutsu attacks. Duration decreases by 1 each time it blocks. Removed when duration reaches 0.
 
-Doom
-damage
-turns
+Earth Tank - (special)
+Combines Sling + Dome + Numb on user. If Dome is already active, performs Barrage instead.
 
-Regen
-heal
-turns
+Recovered - (turns)
+End-of-turn effect. If the character also has Numb, removes both Numb and Recovered.
 
-Dome
-blocks upfront damage 
+// ================================================
+// ⚡ NEGATIVE / DEBUFF
+// ================================================
 
-Burn
-damage
-turns
+Doom - (turns, damage)
+Start-of-turn effect. Deals set damage every turn (usually 1). Stays until duration expires or removed.
 
-wildfire 
-burn target 1/turn
-1 damage on user's turn
+Burn - (turns, damage)
+Start-of-turn effect. Deals set damage every turn (usually 1). Removed when Wet + Burn interact.
 
-Numb
-skip turn
+Numb - (turns)
+Start-of-turn effect. Skips the character's turn and is removed immediately.
 
-Ready
-bonus barrage
+Bleed - (turns, damage)
+Start-of-turn effect. Deals set damage every turn (usually 1).
 
-Release
-block next Genjutsu
+// ================================================
+// 💧 WATER / ENVIRONMENTAL
+// ================================================
 
-Bleed
-damage
-turns
+Wet - (turns)
+End-of-turn effect. If the character also has Burn, removes Burn completely and reduces Wet duration by 1.
 
-Recovered
-remove numb end turn
+Water Clone - (turns)
+Active on owner's turn: performs Barrage.  
+Triggered when blocking: splashes attacker with Wet (3 turns or +2 duration).  
+Also applies Wet (or +2 duration) to target after successful barrage.
+
+// ================================================
+// 🌩️ LIGHTNING / RAMP-UP
+// ================================================
+
+Charged - (turns, extraDamage)
+Used by Chain Lightning. Increases number of hits on repeated use. Duration refreshes and extra hits grow with each cast.
+
+Numb - (turns)   ← (also listed under Negative)
+
+// ================================================
+// 🔥 FIRE / HAZARD
+// ================================================
+
+Burn - (turns, damage)   ← (also listed under Negative)
+Start-of-turn damage. Interacts with Wet to be removed.
+
+Wildfire - (turns)
+Active on owner's turn: deals damage + applies Burn to target and self.  
+Triggered when owner is attacked: applies Burn to attacker.
+
+// ================================================
+// 🐺 BEAST / SUMMON
+// ================================================
+
+Dog - (turns)
+Active on owner's turn: each Dog performs Bite (1 damage + Bleed to target, heals itself +1 duration).  
+Triggered when blocking: absorbs damage equal to its duration. Removed when duration reaches 0.
+
+Shadow Clone - (turns)
+Active on owner's turn: each clone performs Barrage.  
+Triggered when blocking: absorbs damage equal to its duration. Removed when duration reaches 0.
+
+// ================================================
+// 🌀 UTILITY / MISC
+// ================================================
+
+Regen - (turns, damage)
+Start-of-turn effect. Heals set amount (usually 1) if below max HP.
+
+READY - (turns)
+Active on owner's turn: breaks opponent's triggered defenses then performs Barrage.
+
+Release - (turns)
+Triggered when hit by Genjutsu: removes the effect and ends turn early.
