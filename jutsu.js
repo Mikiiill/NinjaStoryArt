@@ -779,6 +779,7 @@ class Skills {
 
             new BattleSkill("Kraken's Grasp", ["Genjutsu", "Water"], { Genjutsu: "C-Rank", Water: "C-Rank" }, this.krakensGrasp.bind(this), "genjutsu", true, "C-Rank"),
             new BattleSkill("Water Clone Jutsu", ["Ninjutsu", "Water"], { Ninjutsu: "C-Rank", Water: "C-Rank" }, this.waterCloneJutsu.bind(this), "ninjutsu", true, "B-Rank"),
+            new BattleSkill("Heavy Storm Jutsu", ["Water", "Lightning"], { Water: "C-Rank", Lightning: "C-Rank" }, this.heavyStormJutsu.bind(this), "lightning", false, "C-Rank"),
 
             //new BattleSkill("Barrage", ["Taijutsu"], {}, this.barrage.bind(this), "taijutsu", false, "D-Rank"),
 
@@ -1515,6 +1516,56 @@ async dynamicEntry(user, target) {
 }
 
 
+
+    async heavyStormJutsu(user, target) {
+    //logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Heavy Storm Jutsu</span></strong> !`);
+
+    // Deal 2-3 damage (lightning jolt)
+    let damage = Math.floor(Math.random() * 2) + 2;
+    // Add / refresh Wet on target (heavy rainfall)
+    let targetWetIndex = target.statusEffects.findIndex(e => e.name === "Wet");
+    if (targetWetIndex !== -1) {
+        target.statusEffects[targetWetIndex].duration += 3;
+        logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span>'s<strong> <span class="output-text-water">Wet</span> duration increased by 3! 💧`);
+    } else {
+        target.statusEffects.push(StatusEffect.Wet(3));
+        logBattle(`<strong><span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span></strong> becomes <span class="output-text-water">Wet</span> for 3 turns due to heavy rainfall! 💧`);
+    }
+
+    // Add / refresh Wet on user
+    let userWetIndex = user.statusEffects.findIndex(e => e.name === "Wet");
+    if (userWetIndex !== -1) {
+        user.statusEffects[userWetIndex].duration += 3;
+    } else {
+        user.statusEffects.push(StatusEffect.Wet(3));
+    }
+
+    // User gains Recovered for 2 turns
+    user.statusEffects.push(StatusEffect.Recovered(1, 0));
+
+    logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span> gains <strong><span class="status-recovered">recovered</span></strong> !`);
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(1000);
+      
+    if (await TriggeredCheck(user, target, this, damage)) {
+        logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span>'s jolt of lightning is blocked!`);
+        updateBattleUI();
+        await sleep(2000);
+        return false;
+    }
+
+    target.hp = Math.max(0, Math.min(target.maxHp, target.hp - damage));
+    logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> strikes <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span> with a jolt of lightning for <strong>${damage} damage</strong>!`);
+
+    updateBattleUI();
+    if (DeathCheck()) return true;
+    await sleep(2000);
+    return false;
+    }
+
+  
+
     async lightningEdge(user, target) {
     target.statusEffects = target.statusEffects.filter(e => e.name !== "Substitute" && e.name !== "Dome");
     logBattle(`<span class="output-text-\( {user === player ? 'player' : 'enemy'}">${user.name}</span> launches a Lightning Spirit at <span class="output-text-\( {target === player ? 'player' : 'enemy'}">${target.name}</span> </span>!`);
@@ -1695,4 +1746,4 @@ async dynamicEntry(user, target) {
     await sleep(2000);
     return false;
     }
-}
+     }
