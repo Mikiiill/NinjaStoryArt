@@ -4,119 +4,17 @@
 ((LIST OF JUTSU 
 AND REQUIREMENTS))
 
-BARRAGE
-None
-1-3 damage, then 1-3 damage
 
-SUBSTITUTION JUTSU
-None
-Dodge next 1Turn
-with substitute
-
-SHADOW CLONE JUTSU
-Ninjutsu: C-Rank
-cost 5HP
-Summon 2 clone 3HP/3Turn
-Jutsu:Barrage 
-
-DEMONIC VISION
-Genjutsu: C-Rank
-Target gains Doom status
-1damage/5turns
-
-HEALING STANCE
-None
-User gains Regen status
-heal 1/2turns
-
-EARTH DOME JUTSU
-Earth: C-Rank
-blocks Jutsu
-1turn
-
-FLAME THROW JUTSU
-Fire: B-Rank
-fireball jutsu
-fireball jutsu
-2 damage burn to User
-
-STATIC FIELD JUTSU
-Lightning: C-Rank
-1-2 damage
-User Recovered 2turns
-Target numb 1turn
-
-FIREBALL JUTSU
-Fire: C-Rank
-2-4 damage
-1 damage burn
-
-fire tag
-Ninjutsu C-Rank 
-Fire C-Rank 
-target burn
-chain next nonsupport jutsu
-
-kunai
-Ninjutsu C-Rank 
-Taijutsu C-Rank 
-1-2 damage
-target bleed
-user substitution 
-
-DYNAMIC ENTRY
-Taijutsu: C-Rank
-deal 1 damage
-use random non support Jutsu
-
-FALCON DROP
-Taijutsu: B-Rank
-User takes 2 damage
-Target takes 2 damage
-User gains READY Status 
-Target gains numb Status
-
-ROCK SMASH JUTSU
-Earth: B-Rank
-deal 6 damage
-
-
-GENJUTSU RELEASE
-Genjutsu: B-Rank
-User remove Doom
-User Release Status 1turn
-User Recovered Status 2turns
-
-LIGHTNING Spirit Strike
-Lightning: C-Rank
-Ninjutsu: C-Rank
-damage 3-6
-remove Target substitute
-remove Target Dome
-User numb 1turn
-
-BITE
-Beast: C-Rank
-1 damage
-heal 1
-Target bleed 
-(1damage 2 turns)
-
-NIGHT TERROR JUTSU
-Genjutsu: B-Rank
-Target numb 1turn
-Target doom
-5 turns 1 damage
 // ================================================
 // BASIC / CORE
 // ================================================
 
 Barrage - D-Rank
 Requirements: None
-Basic attack. Deals \~2 damage (1 base + 1 combo). No status effects.
+Basic attack. Deals 2~4 damage (1-2 base + 1-2 combo).
 
 Substitution Jutsu - D-Rank
-Requirements: Ninjutsu D-Rank, Taijutsu D-Rank
+Requirements: Ninjutsu D-Rank, Taijutsu D-Rank, Genjutsu D-Rank
 Support. Gives user Substitution (1 turn, absorbs damage).
 
 Healing Stance - D-Rank
@@ -124,81 +22,52 @@ Requirements: None
 Support. Heals 1 HP (if below max) and applies Regen (2 turns, 1 HP per turn).
 
 // ================================================
-// WATER
+// TAIJUTSU
 // ================================================
 
-Hydrate - C-Rank
-Requirements: Water C-Rank
-Support. Applies Regen (3 turns).
-- If already Wet: +1 HP and +3 Wet duration
-- If not Wet: +3 HP and Wet for 3 turns
+Dynamic Entry - C-Rank
+Requirements: Taijutsu C-Rank
+Deals 1 damage and chains into another random non-support jutsu. Removes Swap and Dome from target.
 
-Heavy Storm Jutsu - C-Rank
-Requirements: Water C-Rank, Lightning C-Rank
-Deals 2-3 lightning damage. Applies Wet for 3 turns (or +3 duration) to both user and target.
-User gains Recovered for 1 turn.
+Falcon Drop - B-Rank
+Requirements: Taijutsu B-Rank
+Deals 2 damage to target and self. Applies Numb (1 turn) to target. Gives user READY (2 turns).
 
-Drowning Jutsu - B-Rank
-Requirements: Water B-Rank
-Deals 3 damage (+1 extra per remaining Wet turn on target). Adds/refreshes Wet for 3 turns on target.
+Bloodstream Barrage - C-Rank
+Requirements: Beast C-Rank, Taijutsu C-Rank
+Deals base + combo damage and applies Bleed twice to target.
 
-Water Clone Jutsu - B-Rank
-Requirements: Ninjutsu C-Rank, Water C-Rank
-Support. Costs 4 HP (or removes Wet instead). Adds 2 Water Clones (max 3).
-Clones perform barrage and apply Wet effects.
-
-Kraken's Grasp - C-Rank
-Requirements: Genjutsu C-Rank, Water C-Rank
-Support. Applies Doom (5 turns) and Wet (3 turns or +3) to target.
-Log: "becomes soaked in sweat and nerves"
+Kunai - B-Rank
+Requirements: Ninjutsu C-Rank, Taijutsu C-Rank
+Deals 1-2 damage + Bleed (2 turns) to target. Gives user Substitution (2 turns).
 
 // ================================================
-// LIGHTNING
+// NINJUTSU
 // ================================================
 
-Static Field Jutsu - C-Rank
-Requirements: Lightning C-Rank, Ninjutsu C-Rank
-Deals 1-2 damage. Applies Numb (1 turn) to target and Recovered (2 turns) to user.
+Kunai - B-Rank
+Requirements: Ninjutsu C-Rank, Taijutsu C-Rank
+Deals 1-2 damage + Bleed (2 turns) to target. Gives user Substitution (2 turns).
 
-Chain Lightning - B-Rank
-Requirements: Lightning B-Rank
-Hits 4+ times for 1 damage each (ramp-up with Charged status on repeated use).
+Smoke Bomb - B-Rank
+Requirements: Ninjutsu B-Rank
+Support. Chains into another attack and gives user Substitution (1 turn).
 
-// ================================================
-// FIRE
-// ================================================
-
-Fireball Jutsu - C-Rank
-Requirements: Fire C-Rank, Ninjutsu C-Rank
-Deals 2-4 damage + applies Burn (1 turn, 1 dmg) to target.
-
-Flame Throw Jutsu - B-Rank
-Requirements: Fire B-Rank
-Deals 2-4 damage. Applies Burn to both target and user. Chains into Fireball.
-
-// ================================================
-// WIND
-// ================================================
+Fire Tag - B-Rank
+Requirements: Ninjutsu C-Rank, Fire C-Rank
+Deals 1 damage (or blocked). Applies Burn to target if not blocked and chains into another attack.
 
 Razor Wind Jutsu - C-Rank
 Requirements: Wind C-Rank
 Reduces duration of all triggered statuses on target by 1. Deals 1-2 damage + applies Bleed (2 turns).
 
-Wind Shuriken Jutsu - B-Rank
-Requirements: Wind B-Rank
-Skips TriggeredCheck. If target has Earth Dome: reduces it by 2. Otherwise deals 3-4 damage + Bleed.
+Water Clone Jutsu - B-Rank
+Requirements: Ninjutsu C-Rank, Water C-Rank
+Support. Costs 4 HP (or removes Wet). Adds 2 Water Clones that barrage and apply Wet effects.
 
-// ================================================
-// EARTH
-// ================================================
-
-Earth Dome Jutsu - C-Rank
-Requirements: Earth C-Rank, Ninjutsu C-Rank
-Support. Gives user Earth Dome (2 turns, blocks non-Genjutsu attacks).
-
-Rock Smash Jutsu - B-Rank
-Requirements: Earth B-Rank
-Deals 5 damage.
+Earth Tank Jutsu - A-Rank
+Requirements: Earth B-Rank, Ninjutsu C-Rank
+Support. Applies Sling + Dome + Numb to user (or Barrage if Dome active).
 
 // ================================================
 // GENJUTSU
@@ -220,13 +89,108 @@ Hell Fire Jutsu - B-Rank
 Requirements: Genjutsu B-Rank
 Support. Applies Doom (5 turns) to target + Burn (2 dmg) if not blocked.
 
+Kraken's Grasp - C-Rank
+Requirements: Genjutsu C-Rank, Water C-Rank
+Support. Applies Doom (5 turns) and Wet (3 turns or +3) to target.
+
+// ================================================
+// WATER
+// ================================================
+
+Hydrate - C-Rank
+Requirements: Water C-Rank
+Support. Applies Regen (3 turns).
+- If already Wet: +1 HP and +3 Wet duration
+- If not Wet: +3 HP and Wet for 3 turns
+
+Heavy Storm Jutsu - C-Rank
+Requirements: Water C-Rank, Lightning C-Rank
+Deals 2-3 lightning damage. Applies Wet for 3 turns (or +3 duration) to both user and target. 
+User gains Recovered for 1 turn.
+
+Drowning Jutsu - B-Rank
+Requirements: Water B-Rank
+Deals 3 damage (+1 extra per remaining Wet turn on target). Adds/refreshes Wet for 3 turns on target.
+
+Water Clone Jutsu - B-Rank
+Requirements: Ninjutsu C-Rank, Water C-Rank
+Support. Costs 4 HP (or removes Wet). Adds 2 Water Clones that barrage and apply Wet effects.
+
+Kraken's Grasp - C-Rank
+Requirements: Genjutsu C-Rank, Water C-Rank
+Support. Applies Doom and Wet to target.
+
+// ================================================
+// LIGHTNING
+// ================================================
+
+Static Field Jutsu - C-Rank
+Requirements: Lightning C-Rank, Ninjutsu C-Rank
+Deals 1-2 damage. Applies Numb (1 turn) to target and Recovered (2 turns) to user.
+
+Chain Lightning - B-Rank
+Requirements: Lightning B-Rank
+Hits 4+ times for 1 damage each (ramp-up with Charged status).
+
+Lightning Spirit Jutsu - B-Rank
+Requirements: Lightning C-Rank, Ninjutsu C-Rank
+Removes Substitute and Dome from target. Deals 3-7 damage. Applies Numb (1 turn) to user.
+
+Heavy Storm Jutsu - C-Rank
+Requirements: Water C-Rank, Lightning C-Rank
+Deals 2-3 lightning damage. Applies Wet to both + Recovered (1 turn) to user.
+
+// ================================================
+// FIRE
+// ================================================
+
+Fireball Jutsu - C-Rank
+Requirements: Fire C-Rank, Ninjutsu C-Rank
+Deals 2-4 damage + applies Burn (1 turn, 1 dmg) to target.
+
+Flame Throw Jutsu - B-Rank
+Requirements: Fire B-Rank
+Deals 2-4 damage. Applies Burn to both target and user. Chains into Fireball.
+
+Fire Tag - B-Rank
+Requirements: Ninjutsu C-Rank, Fire C-Rank
+Deals 1 damage (or blocked). Applies Burn to target if not blocked and chains into another attack.
+
+// ================================================
+// WIND
+// ================================================
+
+Razor Wind Jutsu - C-Rank
+Requirements: Wind C-Rank
+Reduces duration of all triggered statuses on target by 1. Deals 1-2 damage + applies Bleed (2 turns).
+
+Wind Shuriken Jutsu - B-Rank
+Requirements: Wind B-Rank
+Skips TriggeredCheck. If target has Earth Dome: reduces it by 2. Otherwise deals 3-4 damage + Bleed.
+
+// ================================================
+// EARTH
+// ================================================
+
+Earth Dome Jutsu - C-Rank
+Requirements: Earth C-Rank, Ninjutsu C-Rank
+Support. Gives user Earth Dome (2 turns).
+
+Rock Smash Jutsu - B-Rank
+Requirements: Earth B-Rank
+Deals 5 damage.
+
+Earth Tank Jutsu - A-Rank
+Requirements: Earth B-Rank, Ninjutsu C-Rank
+Support. Applies Sling + Dome + Numb to user (or Barrage if Dome active).
+
 // ================================================
 // BEAST
 // ================================================
 
 Bite - C-Rank
 Requirements: Beast C-Rank
-Deals 1 damage + Bleed (2 turns) to target. Heals user 1 HP if below max.
+Deals 1 damage + Bleed to target. Heals user 1 HP.
 
 Summon Dog - C-Rank
 Requirements: Beast C-Rank
@@ -234,7 +198,4 @@ Support. Costs 4 HP. Summons up to 2 Dogs (bite on your turn + absorption). Appl
 
 Bloodstream Barrage - C-Rank
 Requirements: Beast C-Rank, Taijutsu C-Rank
-Deals base + combo damage + applies Bleed twice to target.
-
-
-ninjastory.ninja
+Deals combo damage + applies Bleed twice to target.
