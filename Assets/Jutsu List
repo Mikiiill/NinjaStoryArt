@@ -33,7 +33,7 @@ Falcon Drop - B-Rank
 Requirements: Taijutsu B-Rank
 Deals 2 damage to target and self. Applies Numb (1 turn) to target. Gives user READY (2 turns).
 
-Bloodstream Barrage - C-Rank
+Bloodstream Barrage - B-Rank
 Requirements: Beast C-Rank, Taijutsu C-Rank
 Deals base + combo damage and applies Bleed twice to target.
 
@@ -89,7 +89,7 @@ Hell Fire Jutsu - B-Rank
 Requirements: Genjutsu B-Rank
 Support. Applies Doom (5 turns) to target + Burn (2 dmg) if not blocked.
 
-Kraken's Grasp - C-Rank
+Kraken's Grasp - B-Rank
 Requirements: Genjutsu C-Rank, Water C-Rank
 Support. Applies Doom (5 turns) and Wet (3 turns or +3) to target.
 
@@ -103,7 +103,7 @@ Support. Applies Regen (3 turns).
 - If already Wet: +1 HP and +3 Wet duration
 - If not Wet: +3 HP and Wet for 3 turns
 
-Heavy Storm Jutsu - C-Rank
+Heavy Storm Jutsu - B-Rank
 Requirements: Water C-Rank, Lightning C-Rank
 Deals 2-3 lightning damage. Applies Wet for 3 turns (or +3 duration) to both user and target. 
 User gains Recovered for 1 turn.
@@ -116,7 +116,7 @@ Water Clone Jutsu - B-Rank
 Requirements: Ninjutsu C-Rank, Water C-Rank
 Support. Costs 4 HP (or removes Wet). Adds 2 Water Clones that barrage and apply Wet effects.
 
-Kraken's Grasp - C-Rank
+Kraken's Grasp - B-Rank
 Requirements: Genjutsu C-Rank, Water C-Rank
 Support. Applies Doom and Wet to target.
 
@@ -125,7 +125,7 @@ Support. Applies Doom and Wet to target.
 // ================================================
 
 Static Field Jutsu - C-Rank
-Requirements: Lightning C-Rank, Ninjutsu C-Rank
+Requirements: Lightning C-Rank,
 Deals 1-2 damage. Applies Numb (1 turn) to target and Recovered (2 turns) to user.
 
 Chain Lightning - B-Rank
@@ -136,7 +136,7 @@ Lightning Spirit Jutsu - B-Rank
 Requirements: Lightning C-Rank, Ninjutsu C-Rank
 Removes Substitute and Dome from target. Deals 3-7 damage. Applies Numb (1 turn) to user.
 
-Heavy Storm Jutsu - C-Rank
+Heavy Storm Jutsu - B-Rank
 Requirements: Water C-Rank, Lightning C-Rank
 Deals 2-3 lightning damage. Applies Wet to both + Recovered (1 turn) to user.
 
@@ -196,6 +196,6 @@ Summon Dog - C-Rank
 Requirements: Beast C-Rank
 Support. Costs 4 HP. Summons up to 2 Dogs (bite on your turn + absorption). Applies Bleed to self.
 
-Bloodstream Barrage - C-Rank
+Bloodstream Barrage - B-Rank
 Requirements: Beast C-Rank, Taijutsu C-Rank
 Deals combo damage + applies Bleed twice to target.
