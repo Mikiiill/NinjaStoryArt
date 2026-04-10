@@ -2,105 +2,105 @@
 // ALL STATUS EFFECTS
 // ================================================
 
-Substitute 🪵
-Start of turn: None
-Active effect: None
-Triggered effect: Absorbs incoming damage (reduces its own duration). Removed when duration reaches 0.
-End of turn: None
+**Substitute** 🪵  
+**Start of turn effect**: None  
+**Active effect**: None  
+**Triggered effect**: Absorbs incoming damage (reduces its own duration). Removed when duration reaches 0.  
+**End of turn effect**: None  
 
-Sling ☄️
-Start of turn: None
-Active effect: Fires a Barrage at the target.
-Triggered effect: None
-End of turn: None
+**Sling** ☄️  
+**Start of turn effect**: None  
+**Active effect**: Fires a Barrage at the target.  
+**Triggered effect**: None  
+**End of turn effect**: None  
 
-Shadow Clone 👥
-Start of turn: None
-Active effect: Each clone performs Barrage on the target.
-Triggered effect: Absorbs damage (reduces clone duration). Removed when duration reaches 0.
-End of turn: None
+**Shadow Clone** 👥  
+**Start of turn effect**: None  
+**Active effect**: Each clone performs Barrage on the target.  
+**Triggered effect**: Absorbs damage (reduces clone duration). Removed when duration reaches 0.  
+**End of turn effect**: None  
 
-Water Clone 👥
-Start of turn: None
-Active effect: Each clone performs Barrage on the target, then applies Wet (or +2 duration) to the target.
-Triggered effect: When blocking an attack, splashes the attacker with Wet (3 turns or +2 duration). Removed when duration reaches 0.
-End of turn: None
+**Water Clone** 👥  
+**Start of turn effect**: None  
+**Active effect**: Each clone performs Barrage on the target, then applies Wet (or +2 duration) to the target.  
+**Triggered effect**: When blocking an attack, splashes the attacker with Wet (3 turns or +2 duration). Removed when duration reaches 0.  
+**End of turn effect**: None  
 
-Doom 💀
-Start of turn: Deals set damage (usually 1) to the character.
-Active effect: None
-Triggered effect: None
-End of turn: None
+**Doom** 💀  
+**Start of turn effect**: Deals set damage (usually 1) to the character.  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: None  
 
-Regen 🌿
-Start of turn: Heals set amount (usually 1) if below max HP.
-Active effect: None
-Triggered effect: None
-End of turn: None
+**Regen** 🌿  
+**Start of turn effect**: Heals set amount (usually 1) if below max HP.  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: None  
 
-Dome 🪨
-Start of turn: None
-Active effect: None
-Triggered effect: Blocks non-Genjutsu attacks. Reduces duration by 1 each block. Removed when duration reaches 0.
-End of turn: None
+**Dome** 🪨  
+**Start of turn effect**: None  
+**Active effect**: None  
+**Triggered effect**: Blocks non-Genjutsu attacks. Reduces duration by 1 each block. Removed when duration reaches 0.  
+**End of turn effect**: None  
 
-Wildfire 🕯
-Start of turn: None
-Active effect: Deals 1 damage to target + applies Burn to both target and self.
-Triggered effect: When owner is attacked, applies Burn to the attacker.
-End of turn: None
+**Wildfire** 🕯  
+**Start of turn effect**: None  
+**Active effect**: Deals 1 damage to target + applies Burn to both target and self.  
+**Triggered effect**: When owner is attacked, applies Burn to the attacker.  
+**End of turn effect**: None  
 
-Burn 🔥
-Start of turn: Deals set damage (usually 1) to the character.
-Active effect: None
-Triggered effect: None
-End of turn: None (can be removed by Wet interaction)
+**Burn** 🔥  
+**Start of turn effect**: Deals set damage (usually 1) to the character.  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: None (can be removed by Wet interaction)  
 
-Wet 💦
-Start of turn: None
-Active effect: None
-Triggered effect: None
-End of turn: If the character also has Burn, removes Burn completely and reduces Wet duration by 1.
+**Wet** 💦  
+**Start of turn effect**: None  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: If the character also has Burn, removes Burn completely and reduces Wet duration by 1.  
 
-Numb ⚡️
-Start of turn: Skips the character's turn and removes itself.
-Active effect: None
-Triggered effect: None
-End of turn: None
+**Numb** ⚡️  
+**Start of turn effect**: Skips the character's turn and removes itself.  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: None  
 
-Charged 🔋
-Start of turn: None
-Active effect: None
-Triggered effect: None
-End of turn: None
-(Used by Chain Lightning to increase number of hits on repeated casts)
+**Charged** 🔋  
+**Start of turn effect**: None  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: None  
+(Used by Chain Lightning to increase number of hits on repeated casts)  
 
-READY 💪
-Start of turn: None
-Active effect: Breaks opponent's triggered defenses, then performs Barrage.
-Triggered effect: None
-End of turn: None
+**READY** 💪  
+**Start of turn effect**: None  
+**Active effect**: Breaks opponent's triggered defenses, then performs Barrage.  
+**Triggered effect**: None  
+**End of turn effect**: None  
 
-Release 🌀
-Start of turn: None
-Active effect: None
-Triggered effect: When hit by Genjutsu, removes the effect and ends turn early.
-End of turn: None
+**Release** 🌀  
+**Start of turn effect**: None  
+**Active effect**: None  
+**Triggered effect**: When hit by Genjutsu, removes the effect and ends turn early.  
+**End of turn effect**: None  
 
-Bleed 🩸
-Start of turn: Deals set damage (usually 1) to the character.
-Active effect: None
-Triggered effect: None
-End of turn: None
+**Bleed** 🩸  
+**Start of turn effect**: Deals set damage (usually 1) to the character.  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: None  
 
-Recovered 💫
-Start of turn: None
-Active effect: None
-Triggered effect: None
-End of turn: If the character also has Numb, removes both Numb and Recovered.
+**Recovered** 💫  
+**Start of turn effect**: None  
+**Active effect**: None  
+**Triggered effect**: None  
+**End of turn effect**: If the character also has Numb, removes both Numb and Recovered.  
 
-Dog 🐺
-Start of turn: None
-Active effect: Each Dog performs Bite (1 damage + Bleed to target, heals itself +1 duration).
-Triggered effect: Absorbs damage equal to its duration. Removed when duration reaches 0.
-End of turn: None
+**Dog** 🐺  
+**Start of turn effect**: None  
+**Active effect**: Each Dog performs Bite (1 damage + Bleed to target, heals itself +1 duration).  
+**Triggered effect**: Absorbs damage equal to its duration. Removed when duration reaches 0.  
+**End of turn effect**: None
