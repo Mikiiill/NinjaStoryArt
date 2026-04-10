@@ -1,92 +1,106 @@
 // ================================================
-// STATUS EFFECTS
+// ALL STATUS EFFECTS
 // ================================================
 
-// ================================================
-// 🪵 DEFENSIVE / PROTECTIVE
-// ================================================
+Substitute 🪵
+Start of turn: None
+Active effect: None
+Triggered effect: Absorbs incoming damage (reduces its own duration). Removed when duration reaches 0.
+End of turn: None
 
-Substitute - (turns)
-Absorbs incoming damage equal to its duration (acts like temporary HP). Removed when duration reaches 0.
+Sling ☄️
+Start of turn: None
+Active effect: Fires a Barrage at the target.
+Triggered effect: None
+End of turn: None
 
-Dome - (turns)
-Blocks non-Genjutsu attacks. Duration decreases by 1 each time it blocks. Removed when duration reaches 0.
+Shadow Clone 👥
+Start of turn: None
+Active effect: Each clone performs Barrage on the target.
+Triggered effect: Absorbs damage (reduces clone duration). Removed when duration reaches 0.
+End of turn: None
 
-Earth Tank - (special)
-Combines Sling + Dome + Numb on user. If Dome is already active, performs Barrage instead.
+Water Clone 👥
+Start of turn: None
+Active effect: Each clone performs Barrage on the target, then applies Wet (or +2 duration) to the target.
+Triggered effect: When blocking an attack, splashes the attacker with Wet (3 turns or +2 duration). Removed when duration reaches 0.
+End of turn: None
 
-Recovered - (turns)
-End-of-turn effect. If the character also has Numb, removes both Numb and Recovered.
+Doom 💀
+Start of turn: Deals set damage (usually 1) to the character.
+Active effect: None
+Triggered effect: None
+End of turn: None
 
-// ================================================
-// ⚡ NEGATIVE / DEBUFF
-// ================================================
+Regen 🌿
+Start of turn: Heals set amount (usually 1) if below max HP.
+Active effect: None
+Triggered effect: None
+End of turn: None
 
-Doom - (turns, damage)
-Start-of-turn effect. Deals set damage every turn (usually 1). Stays until duration expires or removed.
+Dome 🪨
+Start of turn: None
+Active effect: None
+Triggered effect: Blocks non-Genjutsu attacks. Reduces duration by 1 each block. Removed when duration reaches 0.
+End of turn: None
 
-Burn - (turns, damage)
-Start-of-turn effect. Deals set damage every turn (usually 1). Removed when Wet + Burn interact.
+Wildfire 🕯
+Start of turn: None
+Active effect: Deals 1 damage to target + applies Burn to both target and self.
+Triggered effect: When owner is attacked, applies Burn to the attacker.
+End of turn: None
 
-Numb - (turns)
-Start-of-turn effect. Skips the character's turn and is removed immediately.
+Burn 🔥
+Start of turn: Deals set damage (usually 1) to the character.
+Active effect: None
+Triggered effect: None
+End of turn: None (can be removed by Wet interaction)
 
-Bleed - (turns, damage)
-Start-of-turn effect. Deals set damage every turn (usually 1).
+Wet 💦
+Start of turn: None
+Active effect: None
+Triggered effect: None
+End of turn: If the character also has Burn, removes Burn completely and reduces Wet duration by 1.
 
-// ================================================
-// 💧 WATER / ENVIRONMENTAL
-// ================================================
+Numb ⚡️
+Start of turn: Skips the character's turn and removes itself.
+Active effect: None
+Triggered effect: None
+End of turn: None
 
-Wet - (turns)
-End-of-turn effect. If the character also has Burn, removes Burn completely and reduces Wet duration by 1.
+Charged 🔋
+Start of turn: None
+Active effect: None
+Triggered effect: None
+End of turn: None
+(Used by Chain Lightning to increase number of hits on repeated casts)
 
-Water Clone - (turns)
-Active on owner's turn: performs Barrage.  
-Triggered when blocking: splashes attacker with Wet (3 turns or +2 duration).  
-Also applies Wet (or +2 duration) to target after successful barrage.
+READY 💪
+Start of turn: None
+Active effect: Breaks opponent's triggered defenses, then performs Barrage.
+Triggered effect: None
+End of turn: None
 
-// ================================================
-// 🌩️ LIGHTNING / RAMP-UP
-// ================================================
+Release 🌀
+Start of turn: None
+Active effect: None
+Triggered effect: When hit by Genjutsu, removes the effect and ends turn early.
+End of turn: None
 
-Charged - (turns, extraDamage)
-Used by Chain Lightning. Increases number of hits on repeated use. Duration refreshes and extra hits grow with each cast.
+Bleed 🩸
+Start of turn: Deals set damage (usually 1) to the character.
+Active effect: None
+Triggered effect: None
+End of turn: None
 
-Numb - (turns)   ← (also listed under Negative)
+Recovered 💫
+Start of turn: None
+Active effect: None
+Triggered effect: None
+End of turn: If the character also has Numb, removes both Numb and Recovered.
 
-// ================================================
-// 🔥 FIRE / HAZARD
-// ================================================
-
-Burn - (turns, damage)   ← (also listed under Negative)
-Start-of-turn damage. Interacts with Wet to be removed.
-
-Wildfire - (turns)
-Active on owner's turn: deals damage + applies Burn to target and self.  
-Triggered when owner is attacked: applies Burn to attacker.
-
-// ================================================
-// 🐺 BEAST / SUMMON
-// ================================================
-
-Dog - (turns)
-Active on owner's turn: each Dog performs Bite (1 damage + Bleed to target, heals itself +1 duration).  
-Triggered when blocking: absorbs damage equal to its duration. Removed when duration reaches 0.
-
-Shadow Clone - (turns)
-Active on owner's turn: each clone performs Barrage.  
-Triggered when blocking: absorbs damage equal to its duration. Removed when duration reaches 0.
-
-// ================================================
-// 🌀 UTILITY / MISC
-// ================================================
-
-Regen - (turns, damage)
-Start-of-turn effect. Heals set amount (usually 1) if below max HP.
-
-READY - (turns)
-Active on owner's turn: breaks opponent's triggered defenses then performs Barrage.
-
-Release - (turns)
-Triggered when hit by Genjutsu: removes the effect and ends turn early.
+Dog 🐺
+Start of turn: None
+Active effect: Each Dog performs Bite (1 damage + Bleed to target, heals itself +1 duration).
+Triggered effect: Absorbs damage equal to its duration. Removed when duration reaches 0.
+End of turn: None
