@@ -6,15 +6,7 @@ U P D A T E S
 
 P L A N N E D
 
-NinjaStory.Ninja 
-
-relink
-
-https://ninjastory.netlify.app/
-
-EVENT
-Lady Wolf
-is part of Wolf Clan
+NinjaStory.Ninja
 
 clans next
 clan Jutsu next
@@ -30,8 +22,5 @@ stances
 //-Wolf-//
 taijutsu
 Dog pet
-
-next
-water style
 
 
