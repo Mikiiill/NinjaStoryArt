@@ -1,4 +1,4 @@
-                
+             
 class StatusEffect {
     constructor(name, duration, damage = 0, startOfTurn = false, active = false, triggered = false, endOfTurn = false,
                 startOfTurnFunction = null, activeFunction = null, triggeredFunction = null, endOfTurnFunction = null, emoji = null) {
@@ -302,7 +302,7 @@ static get sling() {
                         }
                     }
 
-                    logBattle(`<strong><span class="output-text-\( {entity === player ? 'player' : 'enemy'}"> \){entity.name}</span></strong> is <span class="output-text-water">Wet</span> and <span class="status-burn">Burn</span> cancels out! Wet duration reduced.`);
+                    logBattle(`<strong><span class="output-text-\( {entity === player ? 'player' : 'enemy'}"> ${entity.name}</span></strong> is <span class="output-text-water">Wet</span> and <span class="status-burn">Burn</span> cancels out! Wet duration reduced.`);
                     updateBattleUI();
                     return true;
                 }
@@ -896,7 +896,7 @@ class Skills {
         await skills.barrage(user, target);
         return false;
     }
-    user.hp = Math.max(0, Math.min(user.maxHp, user.hp - 4));
+    user.hp = Math.max(0, Math.min(user.maxHp, user.hp - 3));
     logBattle(`<strong><span class="output-text-${user === player ? 'player' : 'enemy'}">${user.name}</span></strong> gains <strong>2<span class="output-text-neutral">shadow clone</span></strong> <span class="status-shadowcloneeffect">👥</span>!`);
     updateBattleUI();
     if (DeathCheck()) return true;
@@ -939,8 +939,8 @@ user.statusEffects.push(StatusEffect.ShadowClone(3, 0, skills.barrage.bind(skill
 
             return false;
         }
-        user.hp = Math.max(0, Math.min(user.maxHp, user.hp - 4));
-        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> loses 4 HP to create clones!`);
+        user.hp = Math.max(0, Math.min(user.maxHp, user.hp - 3));
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> loses 3 HP to create clones!`);
     }
 
     updateBattleUI();
@@ -1122,9 +1122,9 @@ user.statusEffects.push(StatusEffect.ShadowClone(3, 0, skills.barrage.bind(skill
 
     if (wetEffect) {
         damage += wetEffect.duration;
-        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Drowning Jutsu</span></strong> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span>! The wet target takes extra damage!`);
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Drowning Jutsu</span></strong> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span>! The wet target takes <strong>${damage} damage</strong>!`);
     } else {
-        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Drowning Jutsu</span></strong> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> \){target.name}</span>!`);
+        logBattle(`<strong><span class="output-text-\( {user === player ? 'player' : 'enemy'}"> ${user.name}</span></strong> uses <strong><span class="output-text-water">Drowning Jutsu</span></strong> on <span class="output-text-\( {target === player ? 'player' : 'enemy'}"> ${target.name}</span>!`);
     }
 
     if (await TriggeredCheck(user, target, this, damage)) {
@@ -1746,4 +1746,4 @@ async dynamicEntry(user, target) {
     await sleep(2000);
     return false;
     }
-     }
+      }
