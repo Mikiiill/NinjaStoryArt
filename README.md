@@ -1,12 +1,11 @@
 # NinjaStoryArt
 
-
+http://ninjastory.ninja/
 
 U P D A T E S
 
 P L A N N E D
 
-NinjaStory.Ninja
 
 clans next
 clan Jutsu next
