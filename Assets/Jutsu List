@@ -164,6 +164,12 @@ Wild Fire Jutsu - B-Rank
 Requirements: Fire C-Rank, Ninjutsu C-Rank
 Support. Applies Wildfire status to user (3 turns)
 
+Molten Earth Jutsu
+Requirements: Fire B-Rank, Earth C-Rank
+Target is burned (1 damage)
+User gains Wildfire
+User uses Earth Dome Jutsu
+
 // ================================================
 // 🍃WIND🍃
 // ================================================
@@ -191,6 +197,12 @@ Deals 5 damage.
 Earth Tank Jutsu - A-Rank
 Requirements: Earth B-Rank, Ninjutsu C-Rank
 Support. Applies Sling + Dome + Numb to user (or Barrage if Dome active).
+
+Molten Earth Jutsu
+Requirements: Fire B-Rank, Earth C-Rank
+Target is burned (1 damage)
+User gains Wildfire
+User uses Earth Dome Jutsu
 
 // ================================================
 // 🐺BEAST🐺
