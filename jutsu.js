@@ -68,6 +68,7 @@ class Skills {
            
 
             new BattleSkill("smoke bomb", ["Ninjutsu"], { Ninjutsu: "B-Rank" }, this.smokebomb.bind(this), "ninjutsu", true, "B-Rank"),
+            new BattleSkill("after image", ["Ninjutsu", "Genjutsu"], { Ninjutsu: "C-Rank", Genjutsu: "C-Rank" }, this.afterimage.bind(this), "genjutsu", true, "B-Rank"),
             new BattleSkill("fire tag", ["Ninjutsu", "Fire"], { Ninjutsu: "C-Rank", Fire: "C-Rank" }, this.firetag.bind(this), "ninjutsu", true, "B-Rank"),
             new BattleSkill("Dynamic Entry", ["Taijutsu"], { Taijutsu: "C-Rank" }, this.dynamicEntry.bind(this), "taijutsu", true, "C-Rank"),
             new BattleSkill("Falcon Drop", ["Taijutsu"], { Taijutsu: "B-Rank" }, this.falconDrop.bind(this), "taijutsu", false, "B-Rank"),
@@ -139,6 +140,18 @@ class Skills {
 
     async substitutionJutsu(user, target) {
         user.statusEffects.push(StatusEffect.Substitute(1, 0));
+        logBattle(`<strong><span class="output-text-${user === player ? 'player' : 'enemy'}">${user.name}</span></strong> gains <strong><span class="output-text-neutral">substitution</span></strong> <span class="status-substitution">🪵</span>!`);
+        updateBattleUI();
+        if (DeathCheck()) return true;
+        await sleep(2000);
+        return true;
+    }
+
+
+    async afterimage(user, target) {
+        
+target.statusEffects.push(StatusEffect.Doom(5, 1));
+user.statusEffects.push(StatusEffect.Substitute(1, 0));
         logBattle(`<strong><span class="output-text-${user === player ? 'player' : 'enemy'}">${user.name}</span></strong> gains <strong><span class="output-text-neutral">substitution</span></strong> <span class="status-substitution">🪵</span>!`);
         updateBattleUI();
         if (DeathCheck()) return true;
